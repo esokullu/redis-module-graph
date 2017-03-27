@@ -8,7 +8,7 @@ Node* NewNode(const char* alias, const char* id) {
 	node->alias = NULL;
 	node->outgoingEdges = NewVector(Edge*, 0);
 	node->incomingEdges = 0;
-	node->internalId = randstring();
+	node->internalId = &randstring();
 
 	if(id != NULL) {
 		node->id = strdup(id);
