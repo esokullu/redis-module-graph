@@ -8,7 +8,7 @@ Node* NewNode(const char* alias, const char* id) {
 	node->alias = NULL;
 	node->outgoingEdges = NewVector(Edge*, 0);
 	node->incomingEdges = 0;
-	node->internalId = randstring();
+	node->internalId = mkrndstr();
 
 	if(id != NULL) {
 		node->id = strdup(id);
@@ -21,26 +21,31 @@ Node* NewNode(const char* alias, const char* id) {
 	return node;
 }
 
-static char* randstring() {
-	size_t length =32;
-    static char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-#'?!";        
-    char *randomString = NULL;
 
-    if (length) {
-        randomString = malloc(sizeof(char) * (length +1));
+char *mkrndstr() { // const size_t length, supra
+size_t length = 32;
+static char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-#'?!"; // could be const
+char *randomString;
 
-        if (randomString) {            
-            for (int n = 0;n < length;n++) {            
-                int key = rand() % (int)(sizeof(charset) -1);
-                randomString[n] = charset[key];
-            }
+if (length) {
+    randomString = malloc(length +1); // sizeof(char) == 1, cf. C99
 
-            randomString[length] = '\0';
+    if (randomString) {
+        int l = (int) (sizeof(charset) -1); // (static/global, could be const or #define SZ, would be even better)
+        int key;  // one-time instantiation (static/global would be even better)
+        for (int n = 0;n < length;n++) {        
+            key = rand() % l;   // no instantiation, just assignment, no overhead from sizeof
+            randomString[n] = charset[key];
         }
-    }
 
-    return randomString;
+        randomString[length] = '\0';
+    }
 }
+
+return randomString;
+}
+
+
 
 Node* Node_Clone(const Node *node) {
 	Node *clone = NewNode(node->alias, node->id);
