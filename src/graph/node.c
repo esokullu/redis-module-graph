@@ -21,7 +21,7 @@ Node* NewNode(const char* alias, const char* id) {
 	return node;
 }
 
-char* randstring() {
+static char* randstring() {
 	size_t length =32;
     static char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-#'?!";        
     char *randomString = NULL;
