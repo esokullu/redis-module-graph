@@ -8,7 +8,7 @@ Node* NewNode(const char* alias, const char* id) {
 	node->alias = NULL;
 	node->outgoingEdges = NewVector(Edge*, 0);
 	node->incomingEdges = 0;
-	uuid_generate(node->internalId);
+	node->internalId = randstring();
 
 	if(id != NULL) {
 		node->id = strdup(id);
@@ -19,6 +19,27 @@ Node* NewNode(const char* alias, const char* id) {
 	}
 
 	return node;
+}
+
+char *randstring() {
+	size_t length =32;
+    static char charset[] = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789,.-#'?!";        
+    char *randomString = NULL;
+
+    if (length) {
+        randomString = malloc(sizeof(char) * (length +1));
+
+        if (randomString) {            
+            for (int n = 0;n < length;n++) {            
+                int key = rand() % (int)(sizeof(charset) -1);
+                randomString[n] = charset[key];
+            }
+
+            randomString[length] = '\0';
+        }
+    }
+
+    return randomString;
 }
 
 Node* Node_Clone(const Node *node) {

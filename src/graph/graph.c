@@ -1,5 +1,4 @@
 #include "graph.h"
-#include <uuid/uuid.h>
 
 Graph* NewGraph() {
     Graph* g = (Graph*)malloc(sizeof(Graph));
@@ -7,7 +6,7 @@ Graph* NewGraph() {
     return g;
 }
 
-Node* _getNodeByInternalID(const Graph* g, uuid_t id) {
+Node* _getNodeByInternalID(const Graph* g, char* id) {
     for(int i = 0; i < Vector_Size(g->nodes); i++) {
         Node* node;
         Vector_Get(g->nodes, i, &node);
